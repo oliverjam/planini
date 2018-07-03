@@ -1,0 +1,5 @@
+datamodel: datamodel.graphql
+endpoint: https://eu1.prisma.sh/oliver-81bc61/planini/dev
+hooks:
+  post-deploy:
+    - graphql get-schema -p prisma

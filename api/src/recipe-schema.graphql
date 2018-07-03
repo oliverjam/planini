@@ -1,0 +1,55 @@
+type User {
+  id: ID! @unique
+  githubUserId: String! @unique
+  name: String
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  ingredients: [Ingredient!]! @relation(name: "UserIngredient")
+  recipes: [Recipe!]! @relation(name: "UserRecipe")
+}
+
+type IngredientPrice {
+  value: Int!
+  unit: String!
+}
+
+type Ingredient {
+  name: String! @unique
+  owner: User! @relation(name: "UserIngredient")
+  price: IngredientPrice
+}
+
+type IngredientEntry {
+  type: Ingredient!
+  quantity: Int!
+}
+
+type Recipe {
+  id: ID! @unique
+  name: String!
+  cuisine: String
+  instructions: [String!]!
+  ingredients: [IngredientEntry!]!
+  price: Int
+  owner: User! @relation(name: "UserRecipe")
+}
+
+# import Recipe, Ingredient, User from "./generated/prisma.graphql"
+
+type Query {
+  users: [User!]!
+  user(id: ID!): User
+  feed: [Recipe!]!
+  recipe(id: ID!): Recipe
+}
+
+type Mutation {
+  authenticate(githubCode: String!): AuthenticateUserPayload
+  deleteUser(id: ID!): User!
+  createRecipe(name: String!, cuisine: String, instructions: [String!]!, price: Int): Recipe
+  deleteRecipe(id: ID!): Recipe
+}
+
+type AuthenticateUserPayload {
+  user: User!
+tok
