@@ -22,17 +22,22 @@ class App extends Component {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              Authorization:
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjamo1ZWt1MWo3bzdwMGI2NHh5M282Z3ZuIiwiaWF0IjoxNTMwNjA0Nzk5fQ.54P_ST5SBQMYhXeY3kpeP0B5xvwPRcP1bs0dDTkIwZE',
             },
             body: JSON.stringify({
-              query: `{
-                me {
-                  id
-                  email
+              variables: {
+                email,
+                password,
+              },
+              query: `mutation($email: String!, $password: String!) {
+                signup(email: $email, password: $password) {
+                  token
                 }
               }`,
             }),
+            // body: JSON.stringify({
+            //   query:
+            //     'mutation {\n  signup(email: "a@a.com", password: "h") {\n    token\n  }\n}\n',
+            // }),
           });
           const json = await res.json();
           console.log(json);
