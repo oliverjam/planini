@@ -1,0 +1,33 @@
+{
+  "name": "prisma-client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --watch",
+    "start": "parcel src/index.html"
+  },
+  "author": "oliverjam",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.5",
+    "babel-jest": "^23.2.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^5.0.1",
+    "eslint-config-react-app": "^2.1.0",
+    "eslint-config-recommended": "^3.0.0",
+    "eslint-plugin-flowtype": "^2.49.3",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.10.0",
+    "jest": "^23.3.0",
+    "parcel-bundler": "^1.9.4",
+    "react-testing-library": "^4.1.2"
+  }
+}
