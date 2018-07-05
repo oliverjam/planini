@@ -10,8 +10,13 @@
   "author": "oliverjam",
   "license": "ISC",
   "dependencies": {
+    "@reach/router": "^1.1.1",
+    "babel-plugin-emotion": "^9.2.4",
+    "emotion": "^9.2.4",
     "react": "^16.4.1",
-    "react-dom": "^16.4.1"
+    "react-dom": "^16.4.1",
+    "react-emotion": "^9.2.4",
+    "urql": "^0.2.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
