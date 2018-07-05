@@ -63,4 +63,14 @@ const server = new GraphQLServer({
     db: getPrismaInstance(),
   }),
 });
+
+const options = {
+  cors: {
+    origin: '*',
+    methods: ['GET', 'HEAD', 'POST', 'OPTIONS'],
+    preflightContinue: true,
+    allowedHeaders: ['Origin', 'Accept', 'Content-Type', 'Content-Length'],
+  },
+};
+
 server.start(() => console.log('Server is running on localhost:4000'));
