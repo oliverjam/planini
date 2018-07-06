@@ -36,6 +36,8 @@ class Login extends Component {
       },
     } = await res.json();
     this.props.setToken(token);
+    window.localStorage.setItem('planini-token', token);
+    this.props.navigate('/');
   };
 
   render() {

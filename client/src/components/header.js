@@ -32,14 +32,13 @@ const userQuery = `
 const Header = ({ token }) => (
   <Connect query={query(userQuery)}>
     {({ loaded, fetching, data, error }) => {
-      console.log({ error });
-      if (error) return <p>Whoops... {error}</p>;
+      if (error) return <p>Whoops... {error.message}</p>;
       return (
         <Container>
           <strong>Planini</strong>
           <nav>
             <NavList>
-              {loaded && <li>{data.me}</li>}
+              {loaded && <li>{data.me.email.split('@')[0]}</li>}
               <li>Sign out</li>
             </NavList>
           </nav>

@@ -1,24 +1,50 @@
 import React, { Component } from 'react';
-import { Router, Link } from '@reach/router';
-import Header from './header';
+import { Provider, Client } from 'urql';
+import { Router } from '@reach/router';
 import Login from './login';
+import Home from './home';
+
+const client = new Client({
+  url: 'http://localhost:4000',
+  fetchOptions: () => {
+    try {
+      const token = window.localStorage.getItem('planini-token');
+      return {
+        headers: {
+          Authorization: token ? `Bearer ${token}` : '',
+          'Content-Type': 'application/json',
+        },
+      };
+    } catch (error) {
+      console.error(`Auth error: ${error}`);
+    }
+  },
+});
 
 class App extends Component {
   state = {
-    token:
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjamo4cHg5NXBhenpiMGI4MjZtOXp0b2FnIiwiaWF0IjoxNTMwODA1MjUzfQ.E91-T_WxE1a1288YOZmsM1G-YFQcAFmo2KkEciSiAr8',
+    token: '',
   };
+
+  componentDidMount() {
+    const token = window.localStorage.getItem('planini-token');
+    this.setState({ token });
+  }
 
   setToken = token => this.setState({ token });
 
   render() {
-    const { token, loggedIn } = this.state;
+    const { token } = this.state;
     return (
-      <React.Fragment>
-        <Login />
-        {/* <Header /> */}
-        <main />
-      </React.Fragment>
+      <Provider client={client}>
+        <Router>
+          {!token ? (
+            <Login path="/" setToken={this.setToken} />
+          ) : (
+            <Home path="/" />
+          )}
+        </Router>
+      </Provider>
     );
   }
 }
