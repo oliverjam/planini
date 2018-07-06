@@ -10,6 +10,11 @@ input IngredientInput {
   price: PriceInput
 }
 
+input IngredientEntryInput {
+  name: String!
+  quantity: Int!
+}
+
 type Query {
   me: User
   allRecipes: [Recipe!]!
@@ -26,7 +31,7 @@ type Mutation {
     name: String!
     cuisine: String
     instructions: [String!]!
-    ingredients: [IngredientInput!]!
+    ingredients: [IngredientEntryInput!]!
     price: Int
   ): Recipe
   deleteRecipe(id: ID!): Recipe

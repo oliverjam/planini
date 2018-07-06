@@ -1,3 +1,5 @@
+const { getUserId } = require('../../utils');
+
 const createIngredient = async (parent, { ingredient }, ctx, info) => {
   const id = getUserId(ctx);
   const { name } = ingredient;
