@@ -1,5 +1,21 @@
 # source: https://eu1.prisma.sh/oliver-81bc61/planini/dev
-# timestamp: Tue Jul 03 2018 08:59:34 GMT+0100 (BST)
+# timestamp: Fri Jul 06 2018 12:35:36 GMT+0100 (BST)
+
+type AggregateIngredient {
+  count: Int!
+}
+
+type AggregateIngredientEntry {
+  count: Int!
+}
+
+type AggregateIngredientPrice {
+  count: Int!
+}
+
+type AggregateRecipe {
+  count: Int!
+}
 
 type AggregateUser {
   count: Int!
@@ -12,6 +28,503 @@ type BatchPayload {
 
 scalar DateTime
 
+type Ingredient {
+  name: String!
+  owner(where: UserWhereInput): User!
+  price(where: IngredientPriceWhereInput): IngredientPrice
+}
+
+"""A connection to a list of items."""
+type IngredientConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [IngredientEdge]!
+  aggregate: AggregateIngredient!
+}
+
+input IngredientCreateInput {
+  name: String!
+  owner: UserCreateOneInput!
+  price: IngredientPriceCreateOneInput
+}
+
+input IngredientCreateOneInput {
+  create: IngredientCreateInput
+  connect: IngredientWhereUniqueInput
+}
+
+"""An edge in a connection."""
+type IngredientEdge {
+  """The item at the end of the edge."""
+  node: Ingredient!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+type IngredientEntry {
+  type(where: IngredientWhereInput): Ingredient!
+  quantity: Int!
+}
+
+"""A connection to a list of items."""
+type IngredientEntryConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [IngredientEntryEdge]!
+  aggregate: AggregateIngredientEntry!
+}
+
+input IngredientEntryCreateInput {
+  quantity: Int!
+  type: IngredientCreateOneInput!
+}
+
+input IngredientEntryCreateManyInput {
+  create: [IngredientEntryCreateInput!]
+}
+
+"""An edge in a connection."""
+type IngredientEntryEdge {
+  """The item at the end of the edge."""
+  node: IngredientEntry!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum IngredientEntryOrderByInput {
+  quantity_ASC
+  quantity_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type IngredientEntryPreviousValues {
+  quantity: Int!
+}
+
+type IngredientEntrySubscriptionPayload {
+  mutation: MutationType!
+  node: IngredientEntry
+  updatedFields: [String!]
+  previousValues: IngredientEntryPreviousValues
+}
+
+input IngredientEntrySubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [IngredientEntrySubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [IngredientEntrySubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [IngredientEntrySubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: IngredientEntryWhereInput
+}
+
+input IngredientEntryUpdateInput {
+  quantity: Int
+  type: IngredientUpdateOneInput
+}
+
+input IngredientEntryUpdateManyInput {
+  create: [IngredientEntryCreateInput!]
+}
+
+input IngredientEntryWhereInput {
+  """Logical AND on all given filters."""
+  AND: [IngredientEntryWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [IngredientEntryWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [IngredientEntryWhereInput!]
+  quantity: Int
+
+  """All values that are not equal to given value."""
+  quantity_not: Int
+
+  """All values that are contained in given list."""
+  quantity_in: [Int!]
+
+  """All values that are not contained in given list."""
+  quantity_not_in: [Int!]
+
+  """All values less than the given value."""
+  quantity_lt: Int
+
+  """All values less than or equal the given value."""
+  quantity_lte: Int
+
+  """All values greater than the given value."""
+  quantity_gt: Int
+
+  """All values greater than or equal the given value."""
+  quantity_gte: Int
+  type: IngredientWhereInput
+  _MagicalBackRelation_IngredientEntryToRecipe_every: RecipeWhereInput
+  _MagicalBackRelation_IngredientEntryToRecipe_some: RecipeWhereInput
+  _MagicalBackRelation_IngredientEntryToRecipe_none: RecipeWhereInput
+}
+
+enum IngredientOrderByInput {
+  name_ASC
+  name_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type IngredientPreviousValues {
+  name: String!
+}
+
+type IngredientPrice {
+  value: Int!
+  unit: String!
+}
+
+"""A connection to a list of items."""
+type IngredientPriceConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [IngredientPriceEdge]!
+  aggregate: AggregateIngredientPrice!
+}
+
+input IngredientPriceCreateInput {
+  value: Int!
+  unit: String!
+}
+
+input IngredientPriceCreateOneInput {
+  create: IngredientPriceCreateInput
+}
+
+"""An edge in a connection."""
+type IngredientPriceEdge {
+  """The item at the end of the edge."""
+  node: IngredientPrice!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum IngredientPriceOrderByInput {
+  value_ASC
+  value_DESC
+  unit_ASC
+  unit_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type IngredientPricePreviousValues {
+  value: Int!
+  unit: String!
+}
+
+type IngredientPriceSubscriptionPayload {
+  mutation: MutationType!
+  node: IngredientPrice
+  updatedFields: [String!]
+  previousValues: IngredientPricePreviousValues
+}
+
+input IngredientPriceSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [IngredientPriceSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [IngredientPriceSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [IngredientPriceSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: IngredientPriceWhereInput
+}
+
+input IngredientPriceUpdateDataInput {
+  value: Int
+  unit: String
+}
+
+input IngredientPriceUpdateInput {
+  value: Int
+  unit: String
+}
+
+input IngredientPriceUpdateOneInput {
+  create: IngredientPriceCreateInput
+  disconnect: Boolean
+  delete: Boolean
+  update: IngredientPriceUpdateDataInput
+  upsert: IngredientPriceUpsertNestedInput
+}
+
+input IngredientPriceUpsertNestedInput {
+  update: IngredientPriceUpdateDataInput!
+  create: IngredientPriceCreateInput!
+}
+
+input IngredientPriceWhereInput {
+  """Logical AND on all given filters."""
+  AND: [IngredientPriceWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [IngredientPriceWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [IngredientPriceWhereInput!]
+  value: Int
+
+  """All values that are not equal to given value."""
+  value_not: Int
+
+  """All values that are contained in given list."""
+  value_in: [Int!]
+
+  """All values that are not contained in given list."""
+  value_not_in: [Int!]
+
+  """All values less than the given value."""
+  value_lt: Int
+
+  """All values less than or equal the given value."""
+  value_lte: Int
+
+  """All values greater than the given value."""
+  value_gt: Int
+
+  """All values greater than or equal the given value."""
+  value_gte: Int
+  unit: String
+
+  """All values that are not equal to given value."""
+  unit_not: String
+
+  """All values that are contained in given list."""
+  unit_in: [String!]
+
+  """All values that are not contained in given list."""
+  unit_not_in: [String!]
+
+  """All values less than the given value."""
+  unit_lt: String
+
+  """All values less than or equal the given value."""
+  unit_lte: String
+
+  """All values greater than the given value."""
+  unit_gt: String
+
+  """All values greater than or equal the given value."""
+  unit_gte: String
+
+  """All values containing the given string."""
+  unit_contains: String
+
+  """All values not containing the given string."""
+  unit_not_contains: String
+
+  """All values starting with the given string."""
+  unit_starts_with: String
+
+  """All values not starting with the given string."""
+  unit_not_starts_with: String
+
+  """All values ending with the given string."""
+  unit_ends_with: String
+
+  """All values not ending with the given string."""
+  unit_not_ends_with: String
+  _MagicalBackRelation_IngredientToIngredientPrice_every: IngredientWhereInput
+  _MagicalBackRelation_IngredientToIngredientPrice_some: IngredientWhereInput
+  _MagicalBackRelation_IngredientToIngredientPrice_none: IngredientWhereInput
+}
+
+type IngredientSubscriptionPayload {
+  mutation: MutationType!
+  node: Ingredient
+  updatedFields: [String!]
+  previousValues: IngredientPreviousValues
+}
+
+input IngredientSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [IngredientSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [IngredientSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [IngredientSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: IngredientWhereInput
+}
+
+input IngredientUpdateDataInput {
+  name: String
+  owner: UserUpdateOneInput
+  price: IngredientPriceUpdateOneInput
+}
+
+input IngredientUpdateInput {
+  name: String
+  owner: UserUpdateOneInput
+  price: IngredientPriceUpdateOneInput
+}
+
+input IngredientUpdateOneInput {
+  create: IngredientCreateInput
+  connect: IngredientWhereUniqueInput
+  delete: Boolean
+  update: IngredientUpdateDataInput
+  upsert: IngredientUpsertNestedInput
+}
+
+input IngredientUpsertNestedInput {
+  update: IngredientUpdateDataInput!
+  create: IngredientCreateInput!
+}
+
+input IngredientWhereInput {
+  """Logical AND on all given filters."""
+  AND: [IngredientWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [IngredientWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [IngredientWhereInput!]
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  owner: UserWhereInput
+  price: IngredientPriceWhereInput
+  _MagicalBackRelation_IngredientToIngredientEntry_every: IngredientEntryWhereInput
+  _MagicalBackRelation_IngredientToIngredientEntry_some: IngredientEntryWhereInput
+  _MagicalBackRelation_IngredientToIngredientEntry_none: IngredientEntryWhereInput
+}
+
+input IngredientWhereUniqueInput {
+  name: String
+}
+
 """
 The `Long` scalar type represents non-fractional signed whole numeric values.
 Long can represent values between -(2^63) and 2^63 - 1.
@@ -19,11 +532,29 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
+  createRecipe(data: RecipeCreateInput!): Recipe!
+  createIngredientPrice(data: IngredientPriceCreateInput!): IngredientPrice!
+  createIngredientEntry(data: IngredientEntryCreateInput!): IngredientEntry!
+  createIngredient(data: IngredientCreateInput!): Ingredient!
   createUser(data: UserCreateInput!): User!
+  updateRecipe(data: RecipeUpdateInput!, where: RecipeWhereUniqueInput!): Recipe
+  updateIngredient(data: IngredientUpdateInput!, where: IngredientWhereUniqueInput!): Ingredient
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  deleteRecipe(where: RecipeWhereUniqueInput!): Recipe
+  deleteIngredient(where: IngredientWhereUniqueInput!): Ingredient
   deleteUser(where: UserWhereUniqueInput!): User
+  upsertRecipe(where: RecipeWhereUniqueInput!, create: RecipeCreateInput!, update: RecipeUpdateInput!): Recipe!
+  upsertIngredient(where: IngredientWhereUniqueInput!, create: IngredientCreateInput!, update: IngredientUpdateInput!): Ingredient!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  updateManyRecipes(data: RecipeUpdateInput!, where: RecipeWhereInput): BatchPayload!
+  updateManyIngredientPrices(data: IngredientPriceUpdateInput!, where: IngredientPriceWhereInput): BatchPayload!
+  updateManyIngredientEntries(data: IngredientEntryUpdateInput!, where: IngredientEntryWhereInput): BatchPayload!
+  updateManyIngredients(data: IngredientUpdateInput!, where: IngredientWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
+  deleteManyRecipes(where: RecipeWhereInput): BatchPayload!
+  deleteManyIngredientPrices(where: IngredientPriceWhereInput): BatchPayload!
+  deleteManyIngredientEntries(where: IngredientEntryWhereInput): BatchPayload!
+  deleteManyIngredients(where: IngredientWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
 }
 
@@ -55,8 +586,18 @@ type PageInfo {
 }
 
 type Query {
+  recipes(where: RecipeWhereInput, orderBy: RecipeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Recipe]!
+  ingredientPrices(where: IngredientPriceWhereInput, orderBy: IngredientPriceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [IngredientPrice]!
+  ingredientEntries(where: IngredientEntryWhereInput, orderBy: IngredientEntryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [IngredientEntry]!
+  ingredients(where: IngredientWhereInput, orderBy: IngredientOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Ingredient]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  recipe(where: RecipeWhereUniqueInput!): Recipe
+  ingredient(where: IngredientWhereUniqueInput!): Ingredient
   user(where: UserWhereUniqueInput!): User
+  recipesConnection(where: RecipeWhereInput, orderBy: RecipeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RecipeConnection!
+  ingredientPricesConnection(where: IngredientPriceWhereInput, orderBy: IngredientPriceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): IngredientPriceConnection!
+  ingredientEntriesConnection(where: IngredientEntryWhereInput, orderBy: IngredientEntryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): IngredientEntryConnection!
+  ingredientsConnection(where: IngredientWhereInput, orderBy: IngredientOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): IngredientConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
 
   """Fetches an object given its ID"""
@@ -66,7 +607,289 @@ type Query {
   ): Node
 }
 
+type Recipe implements Node {
+  id: ID!
+  name: String!
+  cuisine: String
+  instructions: [String!]!
+  ingredients(where: IngredientEntryWhereInput, orderBy: IngredientEntryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [IngredientEntry!]
+  price: Int
+  owner(where: UserWhereInput): User!
+}
+
+"""A connection to a list of items."""
+type RecipeConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [RecipeEdge]!
+  aggregate: AggregateRecipe!
+}
+
+input RecipeCreateInput {
+  name: String!
+  cuisine: String
+  price: Int
+  instructions: RecipeCreateinstructionsInput
+  ingredients: IngredientEntryCreateManyInput
+  owner: UserCreateOneInput!
+}
+
+input RecipeCreateinstructionsInput {
+  set: [String!]
+}
+
+"""An edge in a connection."""
+type RecipeEdge {
+  """The item at the end of the edge."""
+  node: Recipe!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum RecipeOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  cuisine_ASC
+  cuisine_DESC
+  price_ASC
+  price_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type RecipePreviousValues {
+  id: ID!
+  name: String!
+  cuisine: String
+  instructions: [String!]!
+  price: Int
+}
+
+type RecipeSubscriptionPayload {
+  mutation: MutationType!
+  node: Recipe
+  updatedFields: [String!]
+  previousValues: RecipePreviousValues
+}
+
+input RecipeSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [RecipeSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [RecipeSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [RecipeSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: RecipeWhereInput
+}
+
+input RecipeUpdateInput {
+  name: String
+  cuisine: String
+  price: Int
+  instructions: RecipeUpdateinstructionsInput
+  ingredients: IngredientEntryUpdateManyInput
+  owner: UserUpdateOneInput
+}
+
+input RecipeUpdateinstructionsInput {
+  set: [String!]
+}
+
+input RecipeWhereInput {
+  """Logical AND on all given filters."""
+  AND: [RecipeWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [RecipeWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [RecipeWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  cuisine: String
+
+  """All values that are not equal to given value."""
+  cuisine_not: String
+
+  """All values that are contained in given list."""
+  cuisine_in: [String!]
+
+  """All values that are not contained in given list."""
+  cuisine_not_in: [String!]
+
+  """All values less than the given value."""
+  cuisine_lt: String
+
+  """All values less than or equal the given value."""
+  cuisine_lte: String
+
+  """All values greater than the given value."""
+  cuisine_gt: String
+
+  """All values greater than or equal the given value."""
+  cuisine_gte: String
+
+  """All values containing the given string."""
+  cuisine_contains: String
+
+  """All values not containing the given string."""
+  cuisine_not_contains: String
+
+  """All values starting with the given string."""
+  cuisine_starts_with: String
+
+  """All values not starting with the given string."""
+  cuisine_not_starts_with: String
+
+  """All values ending with the given string."""
+  cuisine_ends_with: String
+
+  """All values not ending with the given string."""
+  cuisine_not_ends_with: String
+  price: Int
+
+  """All values that are not equal to given value."""
+  price_not: Int
+
+  """All values that are contained in given list."""
+  price_in: [Int!]
+
+  """All values that are not contained in given list."""
+  price_not_in: [Int!]
+
+  """All values less than the given value."""
+  price_lt: Int
+
+  """All values less than or equal the given value."""
+  price_lte: Int
+
+  """All values greater than the given value."""
+  price_gt: Int
+
+  """All values greater than or equal the given value."""
+  price_gte: Int
+  ingredients_every: IngredientEntryWhereInput
+  ingredients_some: IngredientEntryWhereInput
+  ingredients_none: IngredientEntryWhereInput
+  owner: UserWhereInput
+}
+
+input RecipeWhereUniqueInput {
+  id: ID
+}
+
 type Subscription {
+  recipe(where: RecipeSubscriptionWhereInput): RecipeSubscriptionPayload
+  ingredientPrice(where: IngredientPriceSubscriptionWhereInput): IngredientPriceSubscriptionPayload
+  ingredientEntry(where: IngredientEntrySubscriptionWhereInput): IngredientEntrySubscriptionPayload
+  ingredient(where: IngredientSubscriptionWhereInput): IngredientSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
@@ -91,6 +914,11 @@ type UserConnection {
 input UserCreateInput {
   email: String!
   password: String!
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
 }
 
 """An edge in a connection."""
@@ -162,9 +990,27 @@ input UserSubscriptionWhereInput {
   node: UserWhereInput
 }
 
+input UserUpdateDataInput {
+  email: String
+  password: String
+}
+
 input UserUpdateInput {
   email: String
   password: String
+}
+
+input UserUpdateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+  delete: Boolean
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserWhereInput {
@@ -340,6 +1186,12 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   password_not_ends_with: String
+  _MagicalBackRelation_UserRecipe_every: RecipeWhereInput
+  _MagicalBackRelation_UserRecipe_some: RecipeWhereInput
+  _MagicalBackRelation_UserRecipe_none: RecipeWhereInput
+  _MagicalBackRelation_UserIngredient_every: IngredientWhereInput
+  _MagicalBackRelation_UserIngredient_some: IngredientWhereInput
+  _MagicalBackRelation_UserIngredient_none: IngredientWhereInput
 }
 
 input UserWhereUniqueInput {

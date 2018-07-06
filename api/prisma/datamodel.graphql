@@ -5,3 +5,29 @@ type User {
   email: String! @unique
   password: String!
 }
+
+type IngredientPrice {
+  value: Int!
+  unit: String!
+}
+
+type Ingredient {
+  name: String! @unique
+  owner: User! @relation(name: "UserIngredient")
+  price: IngredientPrice
+}
+
+type IngredientEntry {
+  type: Ingredient!
+  quantity: Int!
+}
+
+type Recipe {
+  id: ID! @unique
+  name: String!
+  cuisine: String
+  instructions: [String!]!
+  ingredients: [IngredientEntry!]!
+  price: Int
+  owner: User! @relation(name: "UserRecipe")
+}

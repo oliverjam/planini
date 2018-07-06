@@ -1,10 +1,35 @@
+# import Recipe, Ingredient, User from "./generated/prisma.graphql"
+
+input PriceInput {
+  value: Int!
+  unit: String!
+}
+
+input IngredientInput {
+  name: String!
+  price: PriceInput
+}
+
 type Query {
   me: User
+  allRecipes: [Recipe!]!
+  recipe(id: ID!): Recipe
+  allIngredients: [Ingredient!]!
+  ingredient(name: String!): Ingredient
 }
 
 type Mutation {
   signup(email: String!, password: String!): AuthPayload!
   login(email: String!, password: String!): AuthPayload!
+  createIngredient(ingredient: IngredientInput!): Ingredient
+  createRecipe(
+    name: String!
+    cuisine: String
+    instructions: [String!]!
+    ingredients: [IngredientInput!]!
+    price: Int
+  ): Recipe
+  deleteRecipe(id: ID!): Recipe
 }
 
 type AuthPayload {
