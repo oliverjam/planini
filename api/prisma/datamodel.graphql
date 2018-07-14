@@ -4,6 +4,8 @@ type User {
   updatedAt: DateTime!
   email: String! @unique
   password: String!
+  pantry: [Ingredient!]! @relation(name: "PantryIngredient")
+  shoppingList: [Ingredient!]! @relation(name: "ShoppingListIngredient")
 }
 
 type IngredientPrice {
@@ -15,11 +17,19 @@ type Ingredient {
   name: String! @unique
   owner: User! @relation(name: "UserIngredient")
   price: IngredientPrice
+  inPantryOf: [User!]! @relation(name: "PantryIngredient")
+  inShoppingListOf: [User!]! @relation(name: "ShoppingListIngredient")
 }
 
 type IngredientEntry {
   type: Ingredient!
   quantity: Int!
+}
+
+type Image {
+  url: String! @unique
+  colour: String!
+  attribution: String!
 }
 
 type Recipe {
@@ -29,5 +39,6 @@ type Recipe {
   instructions: [String!]!
   ingredients: [IngredientEntry!]!
   price: Int
+  image: Image!
   owner: User! @relation(name: "UserRecipe")
 }

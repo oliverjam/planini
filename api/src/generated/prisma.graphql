@@ -1,5 +1,9 @@
 # source: https://eu1.prisma.sh/oliver-81bc61/planini/dev
-# timestamp: Fri Jul 06 2018 12:35:36 GMT+0100 (BST)
+# timestamp: Sun Jul 15 2018 10:24:40 GMT+0100 (BST)
+
+type AggregateImage {
+  count: Int!
+}
 
 type AggregateIngredient {
   count: Int!
@@ -28,10 +32,271 @@ type BatchPayload {
 
 scalar DateTime
 
+type Image {
+  url: String!
+  colour: String!
+  attribution: String!
+}
+
+"""A connection to a list of items."""
+type ImageConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ImageEdge]!
+  aggregate: AggregateImage!
+}
+
+input ImageCreateInput {
+  url: String!
+  colour: String!
+  attribution: String!
+}
+
+input ImageCreateOneInput {
+  create: ImageCreateInput
+  connect: ImageWhereUniqueInput
+}
+
+"""An edge in a connection."""
+type ImageEdge {
+  """The item at the end of the edge."""
+  node: Image!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum ImageOrderByInput {
+  url_ASC
+  url_DESC
+  colour_ASC
+  colour_DESC
+  attribution_ASC
+  attribution_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type ImagePreviousValues {
+  url: String!
+  colour: String!
+  attribution: String!
+}
+
+type ImageSubscriptionPayload {
+  mutation: MutationType!
+  node: Image
+  updatedFields: [String!]
+  previousValues: ImagePreviousValues
+}
+
+input ImageSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ImageSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ImageSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ImageSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: ImageWhereInput
+}
+
+input ImageUpdateDataInput {
+  url: String
+  colour: String
+  attribution: String
+}
+
+input ImageUpdateInput {
+  url: String
+  colour: String
+  attribution: String
+}
+
+input ImageUpdateOneInput {
+  create: ImageCreateInput
+  connect: ImageWhereUniqueInput
+  delete: Boolean
+  update: ImageUpdateDataInput
+  upsert: ImageUpsertNestedInput
+}
+
+input ImageUpsertNestedInput {
+  update: ImageUpdateDataInput!
+  create: ImageCreateInput!
+}
+
+input ImageWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ImageWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ImageWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ImageWhereInput!]
+  url: String
+
+  """All values that are not equal to given value."""
+  url_not: String
+
+  """All values that are contained in given list."""
+  url_in: [String!]
+
+  """All values that are not contained in given list."""
+  url_not_in: [String!]
+
+  """All values less than the given value."""
+  url_lt: String
+
+  """All values less than or equal the given value."""
+  url_lte: String
+
+  """All values greater than the given value."""
+  url_gt: String
+
+  """All values greater than or equal the given value."""
+  url_gte: String
+
+  """All values containing the given string."""
+  url_contains: String
+
+  """All values not containing the given string."""
+  url_not_contains: String
+
+  """All values starting with the given string."""
+  url_starts_with: String
+
+  """All values not starting with the given string."""
+  url_not_starts_with: String
+
+  """All values ending with the given string."""
+  url_ends_with: String
+
+  """All values not ending with the given string."""
+  url_not_ends_with: String
+  colour: String
+
+  """All values that are not equal to given value."""
+  colour_not: String
+
+  """All values that are contained in given list."""
+  colour_in: [String!]
+
+  """All values that are not contained in given list."""
+  colour_not_in: [String!]
+
+  """All values less than the given value."""
+  colour_lt: String
+
+  """All values less than or equal the given value."""
+  colour_lte: String
+
+  """All values greater than the given value."""
+  colour_gt: String
+
+  """All values greater than or equal the given value."""
+  colour_gte: String
+
+  """All values containing the given string."""
+  colour_contains: String
+
+  """All values not containing the given string."""
+  colour_not_contains: String
+
+  """All values starting with the given string."""
+  colour_starts_with: String
+
+  """All values not starting with the given string."""
+  colour_not_starts_with: String
+
+  """All values ending with the given string."""
+  colour_ends_with: String
+
+  """All values not ending with the given string."""
+  colour_not_ends_with: String
+  attribution: String
+
+  """All values that are not equal to given value."""
+  attribution_not: String
+
+  """All values that are contained in given list."""
+  attribution_in: [String!]
+
+  """All values that are not contained in given list."""
+  attribution_not_in: [String!]
+
+  """All values less than the given value."""
+  attribution_lt: String
+
+  """All values less than or equal the given value."""
+  attribution_lte: String
+
+  """All values greater than the given value."""
+  attribution_gt: String
+
+  """All values greater than or equal the given value."""
+  attribution_gte: String
+
+  """All values containing the given string."""
+  attribution_contains: String
+
+  """All values not containing the given string."""
+  attribution_not_contains: String
+
+  """All values starting with the given string."""
+  attribution_starts_with: String
+
+  """All values not starting with the given string."""
+  attribution_not_starts_with: String
+
+  """All values ending with the given string."""
+  attribution_ends_with: String
+
+  """All values not ending with the given string."""
+  attribution_not_ends_with: String
+  _MagicalBackRelation_ImageToRecipe_every: RecipeWhereInput
+  _MagicalBackRelation_ImageToRecipe_some: RecipeWhereInput
+  _MagicalBackRelation_ImageToRecipe_none: RecipeWhereInput
+}
+
+input ImageWhereUniqueInput {
+  url: String
+}
+
 type Ingredient {
   name: String!
   owner(where: UserWhereInput): User!
   price(where: IngredientPriceWhereInput): IngredientPrice
+  inPantryOf(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  inShoppingListOf(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
 }
 
 """A connection to a list of items."""
@@ -48,11 +313,37 @@ input IngredientCreateInput {
   name: String!
   owner: UserCreateOneInput!
   price: IngredientPriceCreateOneInput
+  inPantryOf: UserCreateManyWithoutPantryInput
+  inShoppingListOf: UserCreateManyWithoutShoppingListInput
+}
+
+input IngredientCreateManyWithoutInPantryOfInput {
+  create: [IngredientCreateWithoutInPantryOfInput!]
+  connect: [IngredientWhereUniqueInput!]
+}
+
+input IngredientCreateManyWithoutInShoppingListOfInput {
+  create: [IngredientCreateWithoutInShoppingListOfInput!]
+  connect: [IngredientWhereUniqueInput!]
 }
 
 input IngredientCreateOneInput {
   create: IngredientCreateInput
   connect: IngredientWhereUniqueInput
+}
+
+input IngredientCreateWithoutInPantryOfInput {
+  name: String!
+  owner: UserCreateOneInput!
+  price: IngredientPriceCreateOneInput
+  inShoppingListOf: UserCreateManyWithoutShoppingListInput
+}
+
+input IngredientCreateWithoutInShoppingListOfInput {
+  name: String!
+  owner: UserCreateOneInput!
+  price: IngredientPriceCreateOneInput
+  inPantryOf: UserCreateManyWithoutPantryInput
 }
 
 """An edge in a connection."""
@@ -444,12 +735,34 @@ input IngredientUpdateDataInput {
   name: String
   owner: UserUpdateOneInput
   price: IngredientPriceUpdateOneInput
+  inPantryOf: UserUpdateManyWithoutPantryInput
+  inShoppingListOf: UserUpdateManyWithoutShoppingListInput
 }
 
 input IngredientUpdateInput {
   name: String
   owner: UserUpdateOneInput
   price: IngredientPriceUpdateOneInput
+  inPantryOf: UserUpdateManyWithoutPantryInput
+  inShoppingListOf: UserUpdateManyWithoutShoppingListInput
+}
+
+input IngredientUpdateManyWithoutInPantryOfInput {
+  create: [IngredientCreateWithoutInPantryOfInput!]
+  connect: [IngredientWhereUniqueInput!]
+  disconnect: [IngredientWhereUniqueInput!]
+  delete: [IngredientWhereUniqueInput!]
+  update: [IngredientUpdateWithWhereUniqueWithoutInPantryOfInput!]
+  upsert: [IngredientUpsertWithWhereUniqueWithoutInPantryOfInput!]
+}
+
+input IngredientUpdateManyWithoutInShoppingListOfInput {
+  create: [IngredientCreateWithoutInShoppingListOfInput!]
+  connect: [IngredientWhereUniqueInput!]
+  disconnect: [IngredientWhereUniqueInput!]
+  delete: [IngredientWhereUniqueInput!]
+  update: [IngredientUpdateWithWhereUniqueWithoutInShoppingListOfInput!]
+  upsert: [IngredientUpsertWithWhereUniqueWithoutInShoppingListOfInput!]
 }
 
 input IngredientUpdateOneInput {
@@ -460,9 +773,45 @@ input IngredientUpdateOneInput {
   upsert: IngredientUpsertNestedInput
 }
 
+input IngredientUpdateWithoutInPantryOfDataInput {
+  name: String
+  owner: UserUpdateOneInput
+  price: IngredientPriceUpdateOneInput
+  inShoppingListOf: UserUpdateManyWithoutShoppingListInput
+}
+
+input IngredientUpdateWithoutInShoppingListOfDataInput {
+  name: String
+  owner: UserUpdateOneInput
+  price: IngredientPriceUpdateOneInput
+  inPantryOf: UserUpdateManyWithoutPantryInput
+}
+
+input IngredientUpdateWithWhereUniqueWithoutInPantryOfInput {
+  where: IngredientWhereUniqueInput!
+  data: IngredientUpdateWithoutInPantryOfDataInput!
+}
+
+input IngredientUpdateWithWhereUniqueWithoutInShoppingListOfInput {
+  where: IngredientWhereUniqueInput!
+  data: IngredientUpdateWithoutInShoppingListOfDataInput!
+}
+
 input IngredientUpsertNestedInput {
   update: IngredientUpdateDataInput!
   create: IngredientCreateInput!
+}
+
+input IngredientUpsertWithWhereUniqueWithoutInPantryOfInput {
+  where: IngredientWhereUniqueInput!
+  update: IngredientUpdateWithoutInPantryOfDataInput!
+  create: IngredientCreateWithoutInPantryOfInput!
+}
+
+input IngredientUpsertWithWhereUniqueWithoutInShoppingListOfInput {
+  where: IngredientWhereUniqueInput!
+  update: IngredientUpdateWithoutInShoppingListOfDataInput!
+  create: IngredientCreateWithoutInShoppingListOfInput!
 }
 
 input IngredientWhereInput {
@@ -516,6 +865,12 @@ input IngredientWhereInput {
   name_not_ends_with: String
   owner: UserWhereInput
   price: IngredientPriceWhereInput
+  inPantryOf_every: UserWhereInput
+  inPantryOf_some: UserWhereInput
+  inPantryOf_none: UserWhereInput
+  inShoppingListOf_every: UserWhereInput
+  inShoppingListOf_some: UserWhereInput
+  inShoppingListOf_none: UserWhereInput
   _MagicalBackRelation_IngredientToIngredientEntry_every: IngredientEntryWhereInput
   _MagicalBackRelation_IngredientToIngredientEntry_some: IngredientEntryWhereInput
   _MagicalBackRelation_IngredientToIngredientEntry_none: IngredientEntryWhereInput
@@ -536,25 +891,31 @@ type Mutation {
   createIngredientPrice(data: IngredientPriceCreateInput!): IngredientPrice!
   createIngredientEntry(data: IngredientEntryCreateInput!): IngredientEntry!
   createIngredient(data: IngredientCreateInput!): Ingredient!
+  createImage(data: ImageCreateInput!): Image!
   createUser(data: UserCreateInput!): User!
   updateRecipe(data: RecipeUpdateInput!, where: RecipeWhereUniqueInput!): Recipe
   updateIngredient(data: IngredientUpdateInput!, where: IngredientWhereUniqueInput!): Ingredient
+  updateImage(data: ImageUpdateInput!, where: ImageWhereUniqueInput!): Image
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   deleteRecipe(where: RecipeWhereUniqueInput!): Recipe
   deleteIngredient(where: IngredientWhereUniqueInput!): Ingredient
+  deleteImage(where: ImageWhereUniqueInput!): Image
   deleteUser(where: UserWhereUniqueInput!): User
   upsertRecipe(where: RecipeWhereUniqueInput!, create: RecipeCreateInput!, update: RecipeUpdateInput!): Recipe!
   upsertIngredient(where: IngredientWhereUniqueInput!, create: IngredientCreateInput!, update: IngredientUpdateInput!): Ingredient!
+  upsertImage(where: ImageWhereUniqueInput!, create: ImageCreateInput!, update: ImageUpdateInput!): Image!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   updateManyRecipes(data: RecipeUpdateInput!, where: RecipeWhereInput): BatchPayload!
   updateManyIngredientPrices(data: IngredientPriceUpdateInput!, where: IngredientPriceWhereInput): BatchPayload!
   updateManyIngredientEntries(data: IngredientEntryUpdateInput!, where: IngredientEntryWhereInput): BatchPayload!
   updateManyIngredients(data: IngredientUpdateInput!, where: IngredientWhereInput): BatchPayload!
+  updateManyImages(data: ImageUpdateInput!, where: ImageWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
   deleteManyRecipes(where: RecipeWhereInput): BatchPayload!
   deleteManyIngredientPrices(where: IngredientPriceWhereInput): BatchPayload!
   deleteManyIngredientEntries(where: IngredientEntryWhereInput): BatchPayload!
   deleteManyIngredients(where: IngredientWhereInput): BatchPayload!
+  deleteManyImages(where: ImageWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
 }
 
@@ -590,14 +951,17 @@ type Query {
   ingredientPrices(where: IngredientPriceWhereInput, orderBy: IngredientPriceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [IngredientPrice]!
   ingredientEntries(where: IngredientEntryWhereInput, orderBy: IngredientEntryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [IngredientEntry]!
   ingredients(where: IngredientWhereInput, orderBy: IngredientOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Ingredient]!
+  images(where: ImageWhereInput, orderBy: ImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Image]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   recipe(where: RecipeWhereUniqueInput!): Recipe
   ingredient(where: IngredientWhereUniqueInput!): Ingredient
+  image(where: ImageWhereUniqueInput!): Image
   user(where: UserWhereUniqueInput!): User
   recipesConnection(where: RecipeWhereInput, orderBy: RecipeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RecipeConnection!
   ingredientPricesConnection(where: IngredientPriceWhereInput, orderBy: IngredientPriceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): IngredientPriceConnection!
   ingredientEntriesConnection(where: IngredientEntryWhereInput, orderBy: IngredientEntryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): IngredientEntryConnection!
   ingredientsConnection(where: IngredientWhereInput, orderBy: IngredientOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): IngredientConnection!
+  imagesConnection(where: ImageWhereInput, orderBy: ImageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ImageConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
 
   """Fetches an object given its ID"""
@@ -614,6 +978,7 @@ type Recipe implements Node {
   instructions: [String!]!
   ingredients(where: IngredientEntryWhereInput, orderBy: IngredientEntryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [IngredientEntry!]
   price: Int
+  image(where: ImageWhereInput): Image!
   owner(where: UserWhereInput): User!
 }
 
@@ -633,6 +998,7 @@ input RecipeCreateInput {
   price: Int
   instructions: RecipeCreateinstructionsInput
   ingredients: IngredientEntryCreateManyInput
+  image: ImageCreateOneInput!
   owner: UserCreateOneInput!
 }
 
@@ -717,6 +1083,7 @@ input RecipeUpdateInput {
   price: Int
   instructions: RecipeUpdateinstructionsInput
   ingredients: IngredientEntryUpdateManyInput
+  image: ImageUpdateOneInput
   owner: UserUpdateOneInput
 }
 
@@ -878,6 +1245,7 @@ input RecipeWhereInput {
   ingredients_every: IngredientEntryWhereInput
   ingredients_some: IngredientEntryWhereInput
   ingredients_none: IngredientEntryWhereInput
+  image: ImageWhereInput
   owner: UserWhereInput
 }
 
@@ -890,6 +1258,7 @@ type Subscription {
   ingredientPrice(where: IngredientPriceSubscriptionWhereInput): IngredientPriceSubscriptionPayload
   ingredientEntry(where: IngredientEntrySubscriptionWhereInput): IngredientEntrySubscriptionPayload
   ingredient(where: IngredientSubscriptionWhereInput): IngredientSubscriptionPayload
+  image(where: ImageSubscriptionWhereInput): ImageSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
@@ -899,6 +1268,8 @@ type User implements Node {
   updatedAt: DateTime!
   email: String!
   password: String!
+  pantry(where: IngredientWhereInput, orderBy: IngredientOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Ingredient!]
+  shoppingList(where: IngredientWhereInput, orderBy: IngredientOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Ingredient!]
 }
 
 """A connection to a list of items."""
@@ -914,11 +1285,35 @@ type UserConnection {
 input UserCreateInput {
   email: String!
   password: String!
+  pantry: IngredientCreateManyWithoutInPantryOfInput
+  shoppingList: IngredientCreateManyWithoutInShoppingListOfInput
+}
+
+input UserCreateManyWithoutPantryInput {
+  create: [UserCreateWithoutPantryInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
+input UserCreateManyWithoutShoppingListInput {
+  create: [UserCreateWithoutShoppingListInput!]
+  connect: [UserWhereUniqueInput!]
 }
 
 input UserCreateOneInput {
   create: UserCreateInput
   connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutPantryInput {
+  email: String!
+  password: String!
+  shoppingList: IngredientCreateManyWithoutInShoppingListOfInput
+}
+
+input UserCreateWithoutShoppingListInput {
+  email: String!
+  password: String!
+  pantry: IngredientCreateManyWithoutInPantryOfInput
 }
 
 """An edge in a connection."""
@@ -993,11 +1388,33 @@ input UserSubscriptionWhereInput {
 input UserUpdateDataInput {
   email: String
   password: String
+  pantry: IngredientUpdateManyWithoutInPantryOfInput
+  shoppingList: IngredientUpdateManyWithoutInShoppingListOfInput
 }
 
 input UserUpdateInput {
   email: String
   password: String
+  pantry: IngredientUpdateManyWithoutInPantryOfInput
+  shoppingList: IngredientUpdateManyWithoutInShoppingListOfInput
+}
+
+input UserUpdateManyWithoutPantryInput {
+  create: [UserCreateWithoutPantryInput!]
+  connect: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  delete: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutPantryInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutPantryInput!]
+}
+
+input UserUpdateManyWithoutShoppingListInput {
+  create: [UserCreateWithoutShoppingListInput!]
+  connect: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  delete: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutShoppingListInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutShoppingListInput!]
 }
 
 input UserUpdateOneInput {
@@ -1008,9 +1425,43 @@ input UserUpdateOneInput {
   upsert: UserUpsertNestedInput
 }
 
+input UserUpdateWithoutPantryDataInput {
+  email: String
+  password: String
+  shoppingList: IngredientUpdateManyWithoutInShoppingListOfInput
+}
+
+input UserUpdateWithoutShoppingListDataInput {
+  email: String
+  password: String
+  pantry: IngredientUpdateManyWithoutInPantryOfInput
+}
+
+input UserUpdateWithWhereUniqueWithoutPantryInput {
+  where: UserWhereUniqueInput!
+  data: UserUpdateWithoutPantryDataInput!
+}
+
+input UserUpdateWithWhereUniqueWithoutShoppingListInput {
+  where: UserWhereUniqueInput!
+  data: UserUpdateWithoutShoppingListDataInput!
+}
+
 input UserUpsertNestedInput {
   update: UserUpdateDataInput!
   create: UserCreateInput!
+}
+
+input UserUpsertWithWhereUniqueWithoutPantryInput {
+  where: UserWhereUniqueInput!
+  update: UserUpdateWithoutPantryDataInput!
+  create: UserCreateWithoutPantryInput!
+}
+
+input UserUpsertWithWhereUniqueWithoutShoppingListInput {
+  where: UserWhereUniqueInput!
+  update: UserUpdateWithoutShoppingListDataInput!
+  create: UserCreateWithoutShoppingListInput!
 }
 
 input UserWhereInput {
@@ -1186,6 +1637,12 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   password_not_ends_with: String
+  pantry_every: IngredientWhereInput
+  pantry_some: IngredientWhereInput
+  pantry_none: IngredientWhereInput
+  shoppingList_every: IngredientWhereInput
+  shoppingList_some: IngredientWhereInput
+  shoppingList_none: IngredientWhereInput
   _MagicalBackRelation_UserRecipe_every: RecipeWhereInput
   _MagicalBackRelation_UserRecipe_some: RecipeWhereInput
   _MagicalBackRelation_UserRecipe_none: RecipeWhereInput
