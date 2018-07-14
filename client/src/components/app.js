@@ -1,50 +1,35 @@
 import React, { Component } from 'react';
-import { Provider, Client } from 'urql';
-import { Router } from '@reach/router';
+import { ThemeProvider } from 'emotion-theming';
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider } from 'react-apollo';
+import { Router, Redirect } from '@reach/router';
+import theme from './styled/theme';
 import Login from './login';
 import Home from './home';
 
-const client = new Client({
-  url: 'http://localhost:4000',
-  fetchOptions: () => {
-    try {
-      const token = window.localStorage.getItem('planini-token');
-      return {
-        headers: {
-          Authorization: token ? `Bearer ${token}` : '',
-          'Content-Type': 'application/json',
-        },
-      };
-    } catch (error) {
-      console.error(`Auth error: ${error}`);
-    }
+const client = new ApolloClient({
+  uri: 'http://localhost:4000',
+  request: operation => {
+    const token = window.localStorage.getItem('planini-token');
+    const headers = {
+      Authorization: token ? `Bearer ${token}` : '',
+      'Content-Type': 'application/json',
+    };
+    operation.setContext({ headers });
   },
 });
 
 class App extends Component {
-  state = {
-    token: '',
-  };
-
-  componentDidMount() {
-    const token = window.localStorage.getItem('planini-token');
-    this.setState({ token });
-  }
-
-  setToken = token => this.setState({ token });
-
   render() {
-    const { token } = this.state;
     return (
-      <Provider client={client}>
-        <Router>
-          {!token ? (
-            <Login path="/" setToken={this.setToken} />
-          ) : (
+      <ApolloProvider client={client}>
+        <ThemeProvider theme={theme}>
+          <Router>
+            <Login path="/login" />
             <Home path="/" />
-          )}
-        </Router>
-      </Provider>
+          </Router>
+        </ThemeProvider>
+      </ApolloProvider>
     );
   }
 }
